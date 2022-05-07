@@ -1,6 +1,6 @@
 # Trading Machine - Random Forest
 
-A idéia principla é testar indicadores técnicos para a explicação de retornos da ação PETR4, para isso foi usado o modelo de Random Forest e como imputs alguns indicadores técnicos tradicionáis, como:
+A idéia principla é testar indicadores técnicos para a explicação de retornos da ação PETR4, para isso foi usado o modelo de Random Forest e como inputs alguns indicadores técnicos tradicionáis, como:
 
 * RSI
 * Stochastic
@@ -60,8 +60,9 @@ df['Stoch'] = ta.momentum.StochasticOscillator(close=df.Fechamento, high=df.Máx
                                                 window=14, smooth_window=3).stoch()
 df['Chaikin_money'] = ta.volume.ChaikinMoneyFlowIndicator(high=df.Máximo, low=df.Mínimo, close=df.Fechamento, 
                                                           volume=df.Volume, window=20).chaikin_money_flow()
-df['Force_index'] = ta.volume.ForceIndexIndicator(close=df.Fechamento, volume=df.Volume, window=13).force_index() 
-df['Normal'] = (df.Fechamento - df.Mínimo) / (df.Máximo - df.Mínimo) ## mede a % de quanto um dia fechou da máxima ou mínima
+df['Force_index'] = ta.volume.ForceIndexIndicator(close=df.Fechamento, 
+                                                  volume=df.Volume, window=13).force_index() 
+df['Normal'] = (df.Fechamento - df.Mínimo) / (df.Máximo - df.Mínimo) 
 ```
 
 ### Tratando dados
@@ -82,8 +83,28 @@ Através _train_test_split_ foi criado a base de treinamento e teste
 ```markdown
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
 ```
+### Pipeline
 
+Para uma melhor acurácia do modelo, houve a normalização dos dados, utilizando a bibliote _StandardScaler_ e posteriormente o pipeline foi criado utilizando _Pipeline_.
+Foram _inputs_ de paramentros para testar qual ajuste seria o melhor no modelo de classificação
 
+```markdown
+scaler = StandardScaler()
+dt = DecisionTreeClassifier()
+pipeline = Pipeline(steps=[('Scaler',scaler),
+                    ('Decision_Tree', dt)])
+                    
+criterion = ["gini", 'entropy']
+max_depth = [2, 4, 6, 8, 10]
+random_state = [3, 4]
+```
+
+### Rodando modelo
+
+```markdown
+clf_GS = GridSearchCV(pipeline, param_grid=parameters, scoring='accuracy', cv=5)
+clf_GS.fit(X_train, y_train)
+```
 
 For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
