@@ -8,4 +8,5 @@ A idéia principla é testar indicadores técnicos para a explicação de retorn
 * Chaikin Money Flow
 * Force Index
 * KAMA
+
 Além dos retornos passados e a % de quanto um fechamento ficou da máxima e mínima do dia
