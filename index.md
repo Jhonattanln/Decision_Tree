@@ -105,13 +105,32 @@ random_state = [3, 4]
 clf_GS = GridSearchCV(pipeline, param_grid=parameters, scoring='accuracy', cv=5)
 clf_GS.fit(X_train, y_train)
 ```
+> A acurácia do modelo comparado a base de treinamento e de teste foi ≅ 51 %
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+```markdown
+report = classification_report(y_test, clf_GS.predict(X_test))
+```
 
-### Jekyll Themes
+## Analisando estratégia:
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Jhonattanln/Decision_Tree/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+```markdown
+df['Strategy_returns'] = df['Retornos'].shift(-1) * clf_GS.predict(X) ### retorno da estratégia
+### Calculando Drawdown
+strategy = df['Strategy_returns'][X_train.shape[0]:]
+wealth = 1000*(1+strategy).cumprod()
+peaks = wealth.cummax()
+drawdown = (wealth-peaks)/peaks
 
-### Support or Contact
+plt.style.use('fivethirtyeight')
+f, (a0, a1) = plt.subplots(2, 1, figsize=(20, 15), gridspec_kw={'height_ratios': [3, 1]})
+a0.plot((df['Strategy_returns'][X_train.shape[0]:]+1).cumprod())
+a0.set_title('Retornos')
+a1.plot(drawdown, linewidth=0)
+a1.set_title('Drawdown')
+a1.fill_between(drawdown.index, drawdown, alpha=1)
+f.tight_layout()
+```
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+### Gráfico de retorno e drawdown:
+![Estratégia]C:\Users\Jhona\OneDrive\Área de Trabalho\estrategia
+
