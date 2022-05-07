@@ -29,6 +29,23 @@ from sklearn.model_selection import GridSearchCV
 import matplotlib.pyplot as plt
 ```
 
+### Base de dados:
+
+A base de dados utilizada foi provida pela plataforma Economatica e comtém:
+
+* Quantidade de negócios
+* Volume
+* Fechamento
+* Abertura
+* Mínima
+* Máxima
+* Médio
+
+```markdown
+df = pd.read_excel('economatica.xlsx', parse_dates=True, index_col=0, skiprows=3)
+df.rename(columns={'Volume$':'Volume'}, inplace=True)
+```
+
 ### Features:
 
 A biblioteca ta foi utilizada para o cálculo dos indicadores:
@@ -44,6 +61,24 @@ df['Chaikin_money'] = ta.volume.ChaikinMoneyFlowIndicator(high=df.Máximo, low=d
 df['Force_index'] = ta.volume.ForceIndexIndicator(close=df.Fechamento, volume=df.Volume, window=13).force_index() 
 df['Normal'] = (df.Fechamento - df.Mínimo) / (df.Máximo - df.Mínimo) ## mede a % de quanto um dia fechou da máxima ou mínima
 ```
+
+### Tratando dados
+
+Houve a necessidade da limpeza de dados faltantes quando calculados os indicadores, como também a criação de targets para o modelo de classificação supervisionada
+
+```markdown
+df = df.dropna() ## excluindo valores nulos
+X = df[['Q Negs', 'Q Títs', 'Volume', 'Fechamento', 'Abertura', 'Mínimo', 'Máximo', 'Médio', 'Kama', 'ROC', 'RSI', 'Stoch', 'Chaikin_money', 'Force_index', 'Normal']] ## criando as features
+y = np.where(df['Fechamento'].shift(-1) > df['Fechamento'], 1, -1) ## criando target
+```
+
+Através _train_test_split_ foi criado a base de treinamento e teste
+
+```markdown
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
+```
+
+
 
 For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
