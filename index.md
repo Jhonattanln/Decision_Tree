@@ -132,5 +132,6 @@ f.tight_layout()
 ```
 
 ### Gráfico de retorno e drawdown:
-![Estratégia]C:\Users\Jhona\OneDrive\Área de Trabalho\estrategia.png
+![estratégia](https://user-images.githubusercontent.com/63247251/167264997-ad362aef-552d-4ecd-9367-b2048d1bf711.png)
+
 
