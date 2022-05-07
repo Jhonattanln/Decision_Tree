@@ -9,29 +9,24 @@ A idéia principla é testar indicadores técnicos para a explicação de retorn
 * Force Index
 * KAMA
 
-Além dos retornos passados e a % de quanto um fechamento ficou da máxima e mínima do dia
+Além dos retornos passados e a % de quanto um fechamento ficou da máxima e mínima do dia desde 2010
 
 
-### Markdown
+### Bibliotecas utilizadas:
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
 ```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+import pandas as pd
+import numpy as np
+import ta  ### biblioteca para analise de indicadores técnicos
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import GridSearchCV
+import matplotlib.pyplot as plt
 ```
 
 For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
