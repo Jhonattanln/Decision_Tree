@@ -1,4 +1,4 @@
-# Trading Machine - Random Forest
+# Trading Machine - Decision Tree
 
 A idéia principla é testar indicadores técnicos para a explicação de retornos da ação PETR4, para isso foi usado o modelo de Random Forest e como inputs alguns indicadores técnicos tradicionáis, como:
 
